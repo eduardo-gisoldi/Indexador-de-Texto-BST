@@ -1,0 +1,2 @@
+# indexador-de-texto-BST
+
