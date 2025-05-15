@@ -18,5 +18,10 @@ public class App {
          * 
          * 
          */
+
+        No no = new No(10);
+        ArvoreBST arvore = new ArvoreBST(); 
+        arvore.insere(10);
+
     }
 }
