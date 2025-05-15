@@ -8,16 +8,18 @@ public class ArvoreBST {
         raiz = null;
     }
 
-    // Devolve o nó pai de um nó com valor x.
-    // Se x não está na árvore, devolve null.
-    No pai(int x) {
+    /**
+     * Devolve o nó pai de um nó com valor x.
+     * Se x não está na árvore, devolve null.
+    */
+    public No pai(String x) {
         No tmp = raiz;
 
         while (tmp != null) {
-            if ((tmp.getEsq() != null && x == tmp.getEsq().getValor()) ||
-                    (tmp.getDir() != null && x == tmp.getDir().getValor()))
+            if ((tmp.getEsq() != null && x.equals(tmp.getEsq().getPalavra())) ||
+                    (tmp.getDir() != null && x.equals(tmp.getDir().getPalavra())))
                 return tmp;
-            else if (x < tmp.getValor())
+            else if (x.compareTo(tmp.getPalavra()) < 0)
                 tmp = tmp.getEsq();
             else
                 tmp = tmp.getDir();
@@ -30,25 +32,32 @@ public class ArvoreBST {
      * Devolve o nó inserido.
      */
     private No insereRec(No pai, No novo) {
-        if (novo.getValor() <= pai.getValor()) {
+        if (novo.getPalavra().compareTo(pai.getPalavra()) < 0) {
+            // Se o nó a ser inserido é menor que o nó pai, verificar se o pai tem filho esquerdo
+            // Se não tem, insere o nó a esquerda do pai
             if (pai.getEsq() == null) {
                 pai.setEsq(novo);
                 return novo;
             }
             return insereRec(pai.getEsq(), novo);
-        } else {
+        } else if(novo.getPalavra().compareTo(pai.getPalavra()) > 0) {
+            // Se o nó a ser inserido é maior que o nó pai, verificar se o pai tem filho direito
+            // Se não tem, insere o nó a direita do pai
             if (pai.getDir() == null) {
                 pai.setDir(novo);
                 return novo;
             }
             return insereRec(pai.getDir(), novo);
+        } else {
+            // Se a palavra já existe, incrementa a quantidade
+            pai.incQtd();
+            return pai;
         }
     }
-    public No insere(int v) {
-        // Criando um novo nó com valor "v"
+    public No insere(String v) {
         No novo = new No(v);
 
-        if (vazia()) {
+        if (this.vazia()) {
             raiz = novo;
             return novo;
         }
@@ -56,9 +65,10 @@ public class ArvoreBST {
         return insereRec(raiz, novo);
     }
 
+/*
     // Remove um nó da árvore binária, cujo valor é "x", dado
     // como parâmetro.
-    public void remove(int x) {
+    public void remove(String x) {
         No aRemover = busca(x);
         No pai_x = pai(x);
 
@@ -116,6 +126,7 @@ public class ArvoreBST {
         else
             removeCaso2(sucessor);
     }
+*/
 
 
     /**
@@ -189,25 +200,14 @@ public class ArvoreBST {
     }
 
 
-
-    
-
-    
-
     // Busca (x) verifica se x está na árvore ou não.
-    // Devolve true se x está na árvore ou
-    // false, caso contrário.
-
-    public No busca(int x) {
-        return buscaRec(raiz, x);
-    }
-
-    private No buscaRec(No pai, int x) {
+    // Devolve true se x está na árvore ou false, caso contrário.
+    private No buscaRec(No pai, String x) {
         if (pai != null) {
-            if (pai.getValor() == x) {
+            if (pai.getPalavra().compareTo(x) == 0) {
                 return pai;
             } else {
-                if (x < pai.getValor())
+                if (x.compareTo(pai.getPalavra()) < 0)
                     return buscaRec(pai.getEsq(), x);
                 else
                     return buscaRec(pai.getDir(), x);
@@ -215,17 +215,19 @@ public class ArvoreBST {
         }
         return pai;
     }
+    public No busca(String x) {
+        return buscaRec(raiz, x);
+    }
 
     // Função para rastreio in-ordem
     public void rastreio_inordem() {
         inordem(raiz);
         System.out.println();
     }
-
     private void inordem(No x) {
         if (x != null) {
             inordem(x.getEsq());
-            System.out.print(x.getValor() + " ");
+            System.out.print(x.getPalavra() + ", ");
             inordem(x.getDir());
         }
     }
@@ -235,10 +237,9 @@ public class ArvoreBST {
         preordem(raiz);
         System.out.println();
     }
-
     private void preordem(No x) {
         if (x != null) {
-            System.out.print(x.getValor() + " ");
+            System.out.print(x.getPalavra() + ", ");
             preordem(x.getEsq());
             preordem(x.getDir());
         }
@@ -249,17 +250,12 @@ public class ArvoreBST {
         posordem(raiz);
         System.out.println();
     }
-
     private void posordem(No x) {
         if (x != null) {
             posordem(x.getEsq());
             posordem(x.getDir());
-            System.out.print(x.getValor() + " ");
+            System.out.print(x.getPalavra() + ", ");
         }
     }
-
-
-    
-
     
 }

@@ -1,23 +1,25 @@
 public class No {
     // Atributos:
-    int valor; // numero armazenado no nó
-    No esq;    // filho esquerdo
-    No dir;    // filho direito
+    private String palavra; // palavra armazenado no nó
+    private No esq;         // filho esquerdo
+    private No dir;         // filho direito
+    private int qtd;        // quantidade de ocorrências da palavra
 
     // Construtor
-    No(int v) {
-        valor = v;
+    No(String p) {
+        palavra = p;
         esq = null;
         dir = null;
+        qtd = 1;
     }
 
     //Getters e Setters
-    public int getValor() {
-        return valor;
+    public String getPalavra() {
+        return palavra;
     }
 
-    public void setValor(int valor) {
-        this.valor = valor;
+    public void setPalavra(String palavra) {
+        this.palavra = palavra;
     }
 
     public No getEsq() {
@@ -34,5 +36,18 @@ public class No {
 
     public void setDir(No dir) {
         this.dir = dir;
+    }
+
+    public int getQtd() {
+        return qtd;
+    }
+
+    public void setQtd(int qtd) {
+        this.qtd = qtd;
+    }
+
+    // Incrementa a quantidade de ocorrências da palavra em 1
+    public void incQtd() {
+        this.qtd++;
     }
 }
