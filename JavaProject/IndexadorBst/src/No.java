@@ -13,11 +13,24 @@ public class No {
         qtd = 1;
     }
 
-    //Getters e Setters
+    
+    // Incrementa a quantidade de ocorrências da palavra em 1.
+    public void incQtd() {
+        this.qtd++;
+    }
+
+    // Mostra os dados do nó.
+    public void showNo() {
+        System.out.println("Palavra: " + palavra + " | Qtd: " + qtd);
+        System.out.println("Filho esquerdo: " + (esq != null ? esq.getPalavra() : "null"));
+        System.out.println("Filho direito: " + (dir != null ? dir.getPalavra() : "null"));
+    }
+
+
+    // Getters e Setters
     public String getPalavra() {
         return palavra;
     }
-
     public void setPalavra(String palavra) {
         this.palavra = palavra;
     }
@@ -25,7 +38,6 @@ public class No {
     public No getEsq() {
         return esq;
     }
-
     public void setEsq(No esq) {
         this.esq = esq;
     }
@@ -33,7 +45,6 @@ public class No {
     public No getDir() {
         return dir;
     }
-
     public void setDir(No dir) {
         this.dir = dir;
     }
@@ -41,13 +52,8 @@ public class No {
     public int getQtd() {
         return qtd;
     }
-
     public void setQtd(int qtd) {
         this.qtd = qtd;
     }
 
-    // Incrementa a quantidade de ocorrências da palavra em 1
-    public void incQtd() {
-        this.qtd++;
-    }
 }

@@ -191,17 +191,20 @@ public class ArvoreBST {
      * Devolvem o nó com o sucessor ou o antecessor do elemento x (x deve estar na árvore).
      * Se x não está na árvore, devolvem null. Se x não tem sucessor / antecessor, devolvem null.
     */
-    public No sucessor(int x) {
+    public No sucessor(String x) {
         return menorRec(busca(x).getDir());
     }
 
-    public No antecessor(int x) {
+    public No antecessor(String x) {
         return maiorRec(busca(x).getEsq());
     }
 
 
-    // Busca (x) verifica se x está na árvore ou não.
-    // Devolve true se x está na árvore ou false, caso contrário.
+    /**
+     * Busca (x) verifica se x está na árvore ou não.
+     * Devolve o No bucado se x está na árvore.
+     * Se x não está na árvore, devolve null.
+    */
     private No buscaRec(No pai, String x) {
         if (pai != null) {
             if (pai.getPalavra().compareTo(x) == 0) {
@@ -219,34 +222,38 @@ public class ArvoreBST {
         return buscaRec(raiz, x);
     }
 
+
     // Função para rastreio in-ordem
-    public void rastreio_inordem() {
+    public void rastreioInordem() {
+        System.out.println("Rastreio in-ordem:");
         inordem(raiz);
         System.out.println();
     }
     private void inordem(No x) {
         if (x != null) {
             inordem(x.getEsq());
-            System.out.print(x.getPalavra() + ", ");
+            System.out.print(x.getPalavra() + " qtd: " + x.getQtd() + "\n");
             inordem(x.getDir());
         }
     }
 
     // Função para rastreio pre-ordem
-    public void rastreio_preordem() {
+    public void rastreioPreordem() {
+        System.out.println("Rastreio pré-ordem:");
         preordem(raiz);
         System.out.println();
     }
     private void preordem(No x) {
         if (x != null) {
-            System.out.print(x.getPalavra() + ", ");
+            System.out.print(x.getPalavra() + " qtd: " + x.getQtd() + "\n");
             preordem(x.getEsq());
             preordem(x.getDir());
         }
     }
 
     // Função para rastreio pos-ordem
-    public void rastreio_posordem() {
+    public void rastreioPosordem() {
+        System.out.println("Rastreio pós-ordem:");
         posordem(raiz);
         System.out.println();
     }
@@ -254,8 +261,16 @@ public class ArvoreBST {
         if (x != null) {
             posordem(x.getEsq());
             posordem(x.getDir());
-            System.out.print(x.getPalavra() + ", ");
+            System.out.print(x.getPalavra() + " qtd: " + x.getQtd() + "\n");
         }
     }
     
+    
+    // Getters e Setters
+    public No getRaiz() {
+        return raiz;
+    }
+    public void setRaiz(No raiz) {
+        this.raiz = raiz;
+    }
 }

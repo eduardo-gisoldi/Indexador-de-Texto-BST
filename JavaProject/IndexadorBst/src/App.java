@@ -2,6 +2,53 @@ public class App {
     public static void main(String[] args) throws Exception {
         System.out.println("Hello, World!");
 
+        // Testes
+
+        // Teste de No
+        No no = new No("teste");
+        no.setEsq(new No("esquerda"));
+        no.setDir(new No("direita"));
+        no.setQtd(3);
+        no.showNo();        
+        System.out.println("\n\n\n");
+
+        // Teste de ArvoreBST
+        ArvoreBST arvore = new ArvoreBST();
+        arvore.insere("teste");
+        arvore.insere("teste2");
+        arvore.insere("teste3");
+        arvore.insere("teste2");
+        arvore.insere("abelha");
+        arvore.insere("mel"); 
+        arvore.insere("melancia");
+        arvore.insere("bolacha");
+        arvore.insere("abelha");
+        arvore.insere("abelha"); 
+
+        // Testes de rastreios
+        System.out.println("\n\n");
+        arvore.rastreioInordem();
+        System.out.println("\n\n");
+        arvore.rastreioPosordem();
+        System.out.println("\n\n");
+        arvore.rastreioPreordem();
+        System.out.println("\n\n");
+
+        // Teste de busca
+        if (arvore.busca("abelha") != null) {
+            System.out.println("Palavra encontrada: " + arvore.busca("abelha").getPalavra());
+        } else {
+            System.out.println("Palavra não encontrada");
+        }
+
+        // Outros testes
+        System.out.println("Maior: " + arvore.maior().getPalavra());
+        System.out.println("Menor: " + arvore.menor().getPalavra());
+        System.out.println("Raiz: " + arvore.getRaiz().getPalavra());
+        System.out.println("Quantidade de nós: " + arvore.qtdNos());
+
+
+
         /* 
          * primeiro: pedir path do arquivo de texto
          * 
@@ -18,10 +65,6 @@ public class App {
          * 
          * 
          */
-
-        No no = new No(10);
-        ArvoreBST arvore = new ArvoreBST(); 
-        arvore.insere(10);
 
     }
 }
