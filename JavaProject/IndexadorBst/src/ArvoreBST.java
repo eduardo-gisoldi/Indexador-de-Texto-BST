@@ -9,25 +9,6 @@ public class ArvoreBST {
     }
 
     /**
-     * Devolve o nó pai de um nó com valor x.
-     * Se x não está na árvore, devolve null.
-    */
-    public No pai(String x) {
-        No tmp = raiz;
-
-        while (tmp != null) {
-            if ((tmp.getEsq() != null && x.equals(tmp.getEsq().getPalavra())) ||
-                    (tmp.getDir() != null && x.equals(tmp.getDir().getPalavra())))
-                return tmp;
-            else if (x.compareTo(tmp.getPalavra()) < 0)
-                tmp = tmp.getEsq();
-            else
-                tmp = tmp.getDir();
-        }
-        return null;
-    }
-
-    /**
      * Insere um nó na árvore binária.
      * Devolve o nó inserido.
      */
@@ -37,6 +18,7 @@ public class ArvoreBST {
             // Se não tem, insere o nó a esquerda do pai
             if (pai.getEsq() == null) {
                 pai.setEsq(novo);
+                novo.setPai(pai);
                 return novo;
             }
             return insereRec(pai.getEsq(), novo);
@@ -45,6 +27,7 @@ public class ArvoreBST {
             // Se não tem, insere o nó a direita do pai
             if (pai.getDir() == null) {
                 pai.setDir(novo);
+                novo.setPai(pai);
                 return novo;
             }
             return insereRec(pai.getDir(), novo);
@@ -66,6 +49,23 @@ public class ArvoreBST {
     }
 
 /*
+     * Devolve o nó pai de um nó com valor x.
+     * Se x não está na árvore, devolve null.
+    
+    public No pai(String x) {
+        No tmp = raiz;
+
+        while (tmp != null) {
+            if ((tmp.getEsq() != null && x.equals(tmp.getEsq().getPalavra())) ||
+                    (tmp.getDir() != null && x.equals(tmp.getDir().getPalavra())))
+                return tmp;
+            else if (x.compareTo(tmp.getPalavra()) < 0)
+                tmp = tmp.getEsq();
+            else
+                tmp = tmp.getDir();
+        }
+        return null;
+    }
     // Remove um nó da árvore binária, cujo valor é "x", dado
     // como parâmetro.
     public void remove(String x) {
@@ -225,13 +225,7 @@ public class ArvoreBST {
     /**
      * Remove um nó da árvore binária, dado o valor do nó a ser removido.
      * Devolve o nó removido.
-     */
-    public Boolean remove(String valor){
-        No atual = this.raiz;
-        No paiAtual = null;
-
-        // percorrer a árvore até encontrar o elemento ou chegar em null
-        while(atual != null){
+     * while(atual != null){
             if (atual.getPalavra().compareTo(valor) == 0){ //elemento encontrado
                 break;                
             }else if ((valor.compareTo(atual.getPalavra())) < 0){ //valor procurado é menor que o atual 
@@ -242,18 +236,67 @@ public class ArvoreBST {
                 atual = atual.getDir();
             }
         }
-        if (atual == null) return false; // elemento não encontrado
+     */
+    public No remove(String valor){
+        if (this.vazia()) return null; // árvore vazia
+
+        // verificar se o valor está na árvore
+        No atual = this.busca(valor);
+
+        if (atual == null) return null; // elemento não encontrado
         
-        //elemento tem 2 filhos ou elemento tem somente filho à direita
-        if (atual.getDir() != null){
-            
-            No substituto = atual.getDir();
-            No paiSubstituto = atual;
-            while(substituto.getEsq() != null){
-                paiSubstituto = substituto;
-                substituto = substituto.getEsq();
+        No paiAtual = atual.getPai();
+        
+        // Caso Nó Folha
+        if (atual.getDir() == null && atual.getEsq() == null) { 
+            if (paiAtual == null) { // nó raiz
+                this.raiz = null;
+            }else if (paiAtual.getPalavra().compareTo(atual.getPalavra()) < 0){
+                paiAtual.setDir(null); // se pai < atual, remove o filho à direita
+            } else {
+                paiAtual.setEsq(null); // se pai > atual, remove o filho à esquerda
             }
-            substituto.setEsq(atual.getEsq());
+            return atual;
+        }
+        
+        // Atual tem filho só à esquerda
+        if (atual.getDir() == null && atual.getEsq() != null){ 
+            if (paiAtual == null){ // nó raiz
+                this.raiz = atual.getEsq();
+            }else{ 
+                No substituto = maiorRec(atual.getEsq()); // encontrar o maior nó à esquerda
+                No paiSubstituto = substituto.getPai();
+                
+                if (substituto.getEsq() != null){ // substituto tem filho à esquerda
+                    paiSubstituto.setDir(substituto.getEsq()); // ligar filho à direita do substituto ao pai do substituto
+                    substituto.getEsq().setPai(paiSubstituto); // settar filho à esquerda do substituto ao seu novo pai}
+                }
+
+                // realizar substituição
+                substituto.setPai(paiAtual);
+                substituto.setEsq(atual.getEsq());
+                substituto.setDir(atual.getDir());
+                substituto.setPalavra(atual.getPalavra());  
+                return atual;
+            }
+
+            }
+            atual.getEsq().setPai(paiAtual);
+            return atual;
+        }
+
+        
+        /*
+        if (atual.getDir() != null && atual.getEsq() != null){ // tem 2 filhos
+            
+
+                No substituto = maiorRec(atual.getEsq());
+                No paiSubstituto = substituto.getPai();
+            
+
+
+
+            
             if (paiAtual != null){
                 if (atual.getPalavra().compareTo(paiAtual.getPalavra()) < 0){ //atual < paiAtual
                     paiAtual.setEsq(substituto);
@@ -314,7 +357,7 @@ public class ArvoreBST {
             }
         }
 
-        return true;
+        return true; */
     }
 
 

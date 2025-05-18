@@ -1,6 +1,7 @@
 public class No {
     // Atributos:
     private String palavra; // palavra armazenado no nó
+    private No pai;         // nó pai
     private No esq;         // filho esquerdo
     private No dir;         // filho direito
     private int qtd;        // quantidade de ocorrências da palavra
@@ -8,6 +9,7 @@ public class No {
     // Construtor
     No(String p) {
         palavra = p;
+        pai = null;
         esq = null;
         dir = null;
         qtd = 1;
@@ -33,6 +35,13 @@ public class No {
     }
     public void setPalavra(String palavra) {
         this.palavra = palavra;
+    }
+
+    public No getPai() {
+        return pai;
+    }
+    public void setPai(No pai) {
+        this.pai = pai;
     }
 
     public No getEsq() {
