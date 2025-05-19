@@ -217,26 +217,28 @@ public class ArvoreBST {
             }
         }
         
-        // Garantir a integridade estrutura da árvore        
+        // Remover o substituto da sua posição original
         No paiSubstituto = substituto.getPai();
+        No filhoSubstituto = (substituto.getEsq() != null) ? substituto.getEsq() : substituto.getDir();
 
-        if (substituto.getEsq() != null){ // substituto tem filho à esquerda (maior que seu pai)
-            paiSubstituto.setDir(substituto.getEsq()); // ligar filho à direita do pai do substituto ao seu novo filho
-            substituto.getEsq().setPai(paiSubstituto); // settar filho à esquerda do substituto ao seu novo pai
+        if (paiSubstituto != null) { // o substituto não é a raiz
+            if (paiSubstituto.getEsq() == substituto) { // substituto é filho à esquerda
+                paiSubstituto.setEsq(filhoSubstituto);
+            } else { // substituto é filho à direita
+                paiSubstituto.setDir(filhoSubstituto);
+            }
+            if (filhoSubstituto != null) { // se o substituto tem filho
+                filhoSubstituto.setPai(paiSubstituto);
+            }
         }
-        if (substituto.getDir() != null){ // substituto tem filho à direita (menor que seu pai)
-            paiSubstituto.setEsq(substituto.getDir()); // ligar filho à esquerda do pai do substituto ao seu novo filho
-            substituto.getDir().setPai(paiSubstituto); // settar filho à direita do substituto ao seu novo pai
-        }
+        
+        No tmp = atual; //armazenar nó a ser removido
+        
+        // Substituir o conteúdo do nó a ser removido pelo do substituto
+        atual.setPalavra(substituto.getPalavra());
+        atual.setQtd(substituto.getQtd());
 
-        // Realizar Substituição
-        substituto.setPai(paiAtual);
-        substituto.setEsq(atual.getEsq());
-        substituto.setDir(atual.getDir()); 
-        
-        if (paiAtual == null) this.raiz = substituto; // substituindo raiz  
-        
-        return atual;
+        return tmp; // devolve o nó removido  
     }
 
 
@@ -327,6 +329,40 @@ public class ArvoreBST {
     */
 
 /*
+
+
+
+// Garantir a integridade estrutura da árvore        
+        No paiSubstituto = substituto.getPai();
+
+        if (substituto.getEsq() != null){ // substituto tem filho à esquerda (maior que seu pai)
+            paiSubstituto.setDir(substituto.getEsq()); // ligar filho à direita do pai do substituto ao seu novo filho
+            substituto.getEsq().setPai(paiSubstituto); // settar filho à esquerda do substituto ao seu novo pai
+        } else { // substituto não tem filho à esquerda
+            paiSubstituto.setDir(null); 
+        }
+        if (substituto.getDir() != null){ // substituto tem filho à direita (menor que seu pai)
+            paiSubstituto.setEsq(substituto.getDir()); // ligar filho à esquerda do pai do substituto ao seu novo filho
+            substituto.getDir().setPai(paiSubstituto); // settar filho à direita do substituto ao seu novo pai
+        } else { // substituto não tem filho à direita
+            paiSubstituto.setEsq(null); 
+        }
+        
+
+        // Realizar Substituição
+        substituto.setPai(paiAtual);
+        substituto.setEsq(atual.getEsq());
+        substituto.setDir(atual.getDir()); 
+        
+        if (paiAtual == null) this.raiz = substituto; // substituindo raiz  
+        
+        return atual;
+
+
+
+
+
+
     // Remove um nó da árvore binária, cujo valor é "x", dado
     // como parâmetro.
     public void remove(String x) {

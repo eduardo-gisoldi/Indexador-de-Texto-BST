@@ -31,6 +31,8 @@ public class App {
         arvore.insere("abacaxi");
         arvore.insere("abacate");
         arvore.insere("feito");
+        arvore.insere("teste6");
+        arvore.insere("teste5");
 
         // Testes de rastreios
         System.out.println("\n\n");
@@ -61,16 +63,16 @@ public class App {
         arvore.rastreioInordem();
         
         System.out.println("\n\n teste remove caso com 1 filho");
-        arvore.remove("teste2");
+        arvore.remove("teste3");
         arvore.rastreioInordem();
         
-        /*
         System.out.println("\n\n teste remove caso não encontrado");
         System.out.println(arvore.remove("meerio"));
         
         System.out.println("\n\n teste remove caso com 2 filhos");
         arvore.remove("abelha");
         arvore.rastreioInordem();
+        /*
         
         System.out.println("\n\n teste remove caso raiz");
         arvore.remove("teste");
