@@ -5,7 +5,7 @@ public class ArvoreBST {
 
     // Construtor
     public ArvoreBST() {
-        raiz = null;
+        this.raiz = null;
     }
 
     /**
@@ -47,87 +47,6 @@ public class ArvoreBST {
 
         return insereRec(raiz, novo);
     }
-
-/*
-     * Devolve o nó pai de um nó com valor x.
-     * Se x não está na árvore, devolve null.
-    
-    public No pai(String x) {
-        No tmp = raiz;
-
-        while (tmp != null) {
-            if ((tmp.getEsq() != null && x.equals(tmp.getEsq().getPalavra())) ||
-                    (tmp.getDir() != null && x.equals(tmp.getDir().getPalavra())))
-                return tmp;
-            else if (x.compareTo(tmp.getPalavra()) < 0)
-                tmp = tmp.getEsq();
-            else
-                tmp = tmp.getDir();
-        }
-        return null;
-    }
-    // Remove um nó da árvore binária, cujo valor é "x", dado
-    // como parâmetro.
-    public void remove(String x) {
-        No aRemover = busca(x);
-        No pai_x = pai(x);
-
-        // Caso 1: nó-folha
-        if (aRemover.getDir() == null && aRemover.getEsq() == null) {
-            removeCaso1(aRemover);
-        }
-        // Caso 3:
-        else if (aRemover.getDir() != null && aRemover.getEsq() != null) {
-            removeCaso3(aRemover);
-        }
-        // Caso 2:
-        else {
-            removeCaso2(aRemover);
-        }
-    }
-
-    public void removeCaso1(No aRemover) {
-        No pai_x = pai(aRemover.getPalavra());
-
-        // Remove nó-folha
-        if (aRemover.getDir() == null && aRemover.getEsq() == null) {
-            if (pai_x.getPalavra() < aRemover.getPalavra()) {
-                pai_x.setDir(null);
-            } else {
-                pai_x.setEsq(null);
-            }
-        }
-        return;
-    }
-
-    public void removeCaso2(No aRemover) {
-        No pai_x = pai(aRemover.getPalavra());
-
-        if (pai_x.getPalavra() < aRemover.getPalavra()) {
-            if (aRemover.getDir() != null)
-                pai_x.setDir(aRemover.getDir());
-            else
-                pai_x.setDir(aRemover.getEsq());
-        } else {
-            if (aRemover.getDir() != null)
-                pai_x.setEsq(aRemover.getDir());
-            else
-                pai_x.setDir(aRemover.getEsq());
-        }
-    }
-
-    public void removeCaso3(No aRemover) {
-        No sucessor = menorRec(aRemover.getDir());
-
-        aRemover.setValor(sucessor.getPalavra());
-
-        if (sucessor.getEsq() == null && sucessor.getDir() == null)
-            removeCaso1(sucessor);
-        else
-            removeCaso2(sucessor);
-    }
-*/
-
 
     /**
      * Quantidade de nós da árvore.
@@ -223,6 +142,258 @@ public class ArvoreBST {
     }
 
     /**
+     * Remove um nó da árvore.
+     * Devolve o nó removido. Retorna null se o nó não foi encontrado.
+     */
+    public No remove(String valor){
+            // Caso Árvore Vazia
+        if (this.vazia()) {
+            System.err.println("Árvore vazia, remover não é possível.");
+            return null; 
+        }
+
+        No atual = this.busca(valor);// verificar se o valor está na árvore
+
+        // Caso Elemento Não Encontrado
+        if (atual == null) {
+            System.err.println("Elemento não encontrado na árvore, não é possível remover.");
+            return null; 
+        }
+
+        No paiAtual = atual.getPai(); // facilitando escrita
+        
+        // Caso Nó Folha
+        if (atual.getDir() == null && atual.getEsq() == null) { 
+            if (paiAtual == null) { // nó raiz
+            this.raiz = null;
+            return atual;
+        } else if ( (atual.getPalavra().compareTo(paiAtual.getPalavra())) < 0) {
+            paiAtual.setEsq(null); // atual está à esquerda do pai
+        } else {
+            paiAtual.setDir(null); // atual está à direita do pai
+        }
+        return atual;
+        }
+        
+        No substituto; // precisaremos de um substituto para o nó atual
+
+        // Encontrar substituto para Caso Atual com apenas Um Filho
+        if ( (atual.getDir() == null && atual.getEsq() != null)
+                || (atual.getDir() != null && atual.getEsq() == null) ) { 
+            
+            if (paiAtual == null){ // nó raiz
+                // atual tem seu filho à esquerda ou à direita
+                if (atual.getDir() == null && atual.getEsq() != null) {
+                    this.raiz = atual.getEsq();
+                    atual.getEsq().setPai(paiAtual);
+                } else {
+                    this.raiz = atual.getDir();
+                    atual.getDir().setPai(paiAtual);
+                }
+                return atual;
+
+            }else{ 
+                // atual tem seu filho à esquerda ou à direita
+                if (atual.getDir() == null && atual.getEsq() != null) {
+                    substituto = maiorRec(atual.getEsq()); // encontrar o maior nó à esquerda
+                } else {
+                    substituto = menorRec(atual.getDir()); // encontrar o menor nó à direita
+                }
+            }
+        } else {
+            // Encontrar substituto para Caso Atual com Dois Filhos
+            
+            // Encontrar o melhor candidato para substituto
+            No candidatoEsq = maiorRec(atual.getEsq());
+            No candidatoDir = menorRec(atual.getDir());
+            
+            int resultadoEsq = raiz.getPalavra().compareTo(candidatoEsq.getPalavra());
+            int resultadoDir = raiz.getPalavra().compareTo(candidatoDir.getPalavra());
+            
+            if (Math.abs(resultadoEsq) < Math.abs(resultadoDir)) { // candidatoEsq é mais próximo à raiz
+                substituto = candidatoEsq;
+            } else { // candidatoDir é mais próximo à raiz ou estão à mesma distância
+                substituto = candidatoDir;
+            }
+        }
+        
+        // Garantir a integridade estrutura da árvore        
+        No paiSubstituto = substituto.getPai();
+
+        if (substituto.getEsq() != null){ // substituto tem filho à esquerda (maior que seu pai)
+            paiSubstituto.setDir(substituto.getEsq()); // ligar filho à direita do pai do substituto ao seu novo filho
+            substituto.getEsq().setPai(paiSubstituto); // settar filho à esquerda do substituto ao seu novo pai
+        }
+        if (substituto.getDir() != null){ // substituto tem filho à direita (menor que seu pai)
+            paiSubstituto.setEsq(substituto.getDir()); // ligar filho à esquerda do pai do substituto ao seu novo filho
+            substituto.getDir().setPai(paiSubstituto); // settar filho à direita do substituto ao seu novo pai
+        }
+
+        // Realizar Substituição
+        substituto.setPai(paiAtual);
+        substituto.setEsq(atual.getEsq());
+        substituto.setDir(atual.getDir()); 
+        
+        if (paiAtual == null) this.raiz = substituto; // substituindo raiz  
+        
+        return atual;
+    }
+
+
+    /**
+     * Mostra os dados do nó.
+     */
+    private void mostraElemento(No x) {
+        // se o nó não tem pai, imprime "null"
+        No noPai = new No("null");
+        if (x.getPai() != null) noPai = x.getPai();
+    
+        System.out.print(x.getPalavra() + ", qtd: " + x.getQtd() + ", pai: " + noPai.getPalavra() + "\n");
+    }
+
+    // Função para rastreio in-ordem
+    public void rastreioInordem() {
+        System.out.println("Rastreio in-ordem:");
+        inordem(raiz);
+        System.out.println();
+    }
+    private void inordem(No x) {
+        if (x != null) {
+            inordem(x.getEsq());
+            mostraElemento(x);
+            inordem(x.getDir());
+        }
+    }
+
+    // Função para rastreio pre-ordem
+    public void rastreioPreordem() {
+        System.out.println("Rastreio pré-ordem:");
+        preordem(raiz);
+        System.out.println();
+    }
+    private void preordem(No x) {
+        if (x != null) {
+            mostraElemento(x);
+            preordem(x.getEsq());
+            preordem(x.getDir());
+        }
+    }
+
+    // Função para rastreio pos-ordem
+    public void rastreioPosordem() {
+        System.out.println("Rastreio pós-ordem:");
+        posordem(raiz);
+        System.out.println();
+    }
+    private void posordem(No x) {
+        if (x != null) {
+            posordem(x.getEsq());
+            posordem(x.getDir());
+            mostraElemento(x);
+        }
+    }
+    
+    
+    // Getters e Setters
+    public No getRaiz() {
+        return raiz;
+    }
+    public void setRaiz(No raiz) {
+        this.raiz = raiz;
+    }
+}
+
+
+
+
+
+/* Devolve o nó pai de um nó com valor x.
+    * Se x não está na árvore, devolve null.
+    * Se x é a raiz, devolve null.
+    public No pai(String x) {
+        No tmp = raiz;
+        
+        while (tmp != null) {
+            if ((tmp.getEsq() != null && x.equals(tmp.getEsq().getPalavra())) ||
+            (tmp.getDir() != null && x.equals(tmp.getDir().getPalavra())))
+            return tmp;
+            else if (x.compareTo(tmp.getPalavra()) < 0)
+            tmp = tmp.getEsq();
+            else
+            tmp = tmp.getDir();
+        }
+        return null;
+    }
+    */
+
+/*
+    // Remove um nó da árvore binária, cujo valor é "x", dado
+    // como parâmetro.
+    public void remove(String x) {
+        No aRemover = busca(x);
+        No pai_x = pai(x);
+
+        // Caso 1: nó-folha
+        if (aRemover.getDir() == null && aRemover.getEsq() == null) {
+            removeCaso1(aRemover);
+        }
+        // Caso 3:
+        else if (aRemover.getDir() != null && aRemover.getEsq() != null) {
+            removeCaso3(aRemover);
+        }
+        // Caso 2:
+        else {
+            removeCaso2(aRemover);
+        }
+    }
+
+    public void removeCaso1(No aRemover) {
+        No pai_x = pai(aRemover.getPalavra());
+
+        // Remove nó-folha
+        if (aRemover.getDir() == null && aRemover.getEsq() == null) {
+            if (pai_x.getPalavra() < aRemover.getPalavra()) {
+                pai_x.setDir(null);
+            } else {
+                pai_x.setEsq(null);
+            }
+        }
+        return;
+    }
+
+    public void removeCaso2(No aRemover) {
+        No pai_x = pai(aRemover.getPalavra());
+
+        if (pai_x.getPalavra() < aRemover.getPalavra()) {
+            if (aRemover.getDir() != null)
+                pai_x.setDir(aRemover.getDir());
+            else
+                pai_x.setDir(aRemover.getEsq());
+        } else {
+            if (aRemover.getDir() != null)
+                pai_x.setEsq(aRemover.getDir());
+            else
+                pai_x.setDir(aRemover.getEsq());
+        }
+    }
+
+    public void removeCaso3(No aRemover) {
+        No sucessor = menorRec(aRemover.getDir());
+
+        aRemover.setValor(sucessor.getPalavra());
+
+        if (sucessor.getEsq() == null && sucessor.getDir() == null)
+            removeCaso1(sucessor);
+        else
+            removeCaso2(sucessor);
+    }
+*/
+
+
+
+
+
+  /**
      * Remove um nó da árvore binária, dado o valor do nó a ser removido.
      * Devolve o nó removido.
      * while(atual != null){
@@ -237,55 +408,9 @@ public class ArvoreBST {
             }
         }
      */
-    public No remove(String valor){
-        if (this.vazia()) return null; // árvore vazia
 
-        // verificar se o valor está na árvore
-        No atual = this.busca(valor);
 
-        if (atual == null) return null; // elemento não encontrado
-        
-        No paiAtual = atual.getPai();
-        
-        // Caso Nó Folha
-        if (atual.getDir() == null && atual.getEsq() == null) { 
-            if (paiAtual == null) { // nó raiz
-                this.raiz = null;
-            }else if (paiAtual.getPalavra().compareTo(atual.getPalavra()) < 0){
-                paiAtual.setDir(null); // se pai < atual, remove o filho à direita
-            } else {
-                paiAtual.setEsq(null); // se pai > atual, remove o filho à esquerda
-            }
-            return atual;
-        }
-        
-        // Atual tem filho só à esquerda
-        if (atual.getDir() == null && atual.getEsq() != null){ 
-            if (paiAtual == null){ // nó raiz
-                this.raiz = atual.getEsq();
-            }else{ 
-                No substituto = maiorRec(atual.getEsq()); // encontrar o maior nó à esquerda
-                No paiSubstituto = substituto.getPai();
-                
-                if (substituto.getEsq() != null){ // substituto tem filho à esquerda
-                    paiSubstituto.setDir(substituto.getEsq()); // ligar filho à direita do substituto ao pai do substituto
-                    substituto.getEsq().setPai(paiSubstituto); // settar filho à esquerda do substituto ao seu novo pai}
-                }
 
-                // realizar substituição
-                substituto.setPai(paiAtual);
-                substituto.setEsq(atual.getEsq());
-                substituto.setDir(atual.getDir());
-                substituto.setPalavra(atual.getPalavra());  
-                return atual;
-            }
-
-            }
-            atual.getEsq().setPai(paiAtual);
-            return atual;
-        }
-
-        
         /*
         if (atual.getDir() != null && atual.getEsq() != null){ // tem 2 filhos
             
@@ -357,60 +482,7 @@ public class ArvoreBST {
             }
         }
 
-        return true; */
-    }
-
-
-
-
-    // Função para rastreio in-ordem
-    public void rastreioInordem() {
-        System.out.println("Rastreio in-ordem:");
-        inordem(raiz);
-        System.out.println();
-    }
-    private void inordem(No x) {
-        if (x != null) {
-            inordem(x.getEsq());
-            System.out.print(x.getPalavra() + " qtd: " + x.getQtd() + "\n");
-            inordem(x.getDir());
-        }
-    }
-
-    // Função para rastreio pre-ordem
-    public void rastreioPreordem() {
-        System.out.println("Rastreio pré-ordem:");
-        preordem(raiz);
-        System.out.println();
-    }
-    private void preordem(No x) {
-        if (x != null) {
-            System.out.print(x.getPalavra() + " qtd: " + x.getQtd() + "\n");
-            preordem(x.getEsq());
-            preordem(x.getDir());
-        }
-    }
-
-    // Função para rastreio pos-ordem
-    public void rastreioPosordem() {
-        System.out.println("Rastreio pós-ordem:");
-        posordem(raiz);
-        System.out.println();
-    }
-    private void posordem(No x) {
-        if (x != null) {
-            posordem(x.getEsq());
-            posordem(x.getDir());
-            System.out.print(x.getPalavra() + " qtd: " + x.getQtd() + "\n");
-        }
     }
     
-    
-    // Getters e Setters
-    public No getRaiz() {
-        return raiz;
-    }
-    public void setRaiz(No raiz) {
-        this.raiz = raiz;
-    }
-}
+    return true; 
+    */

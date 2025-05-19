@@ -7,12 +7,12 @@ public class No {
     private int qtd;        // quantidade de ocorrências da palavra
 
     // Construtor
-    No(String p) {
-        palavra = p;
-        pai = null;
-        esq = null;
-        dir = null;
-        qtd = 1;
+    No(String palavra) {
+        this.palavra = palavra;
+        this.pai = null;
+        this.esq = null;
+        this.dir = null;
+        this.qtd = 1;
     }
 
     
@@ -23,9 +23,11 @@ public class No {
 
     // Mostra os dados do nó.
     public void showNo() {
-        System.out.println("Palavra: " + palavra + " | Qtd: " + qtd);
+        System.out.println("---\nPalavra: " + palavra + " | Qtd: " + qtd);
         System.out.println("Filho esquerdo: " + (esq != null ? esq.getPalavra() : "null"));
         System.out.println("Filho direito: " + (dir != null ? dir.getPalavra() : "null"));
+        System.out.println("Pai: " + (pai != null ? pai.getPalavra() : "null"));
+        System.out.println("---");
     }
 
 
