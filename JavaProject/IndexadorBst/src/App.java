@@ -61,10 +61,12 @@ public class App {
         System.out.println("\n\n teste remove caso sem filhos");
         arvore.remove("abacate");
         arvore.rastreioInordem();
+        System.out.println("Quantidade de nós: " + arvore.qtdNos());
         
         System.out.println("\n\n teste remove caso com 1 filho");
         arvore.remove("teste3");
         arvore.rastreioInordem();
+        System.out.println("Quantidade de nós: " + arvore.qtdNos());
         
         System.out.println("\n\n teste remove caso não encontrado");
         System.out.println(arvore.remove("meerio"));
@@ -72,14 +74,13 @@ public class App {
         System.out.println("\n\n teste remove caso com 2 filhos");
         arvore.remove("abelha");
         arvore.rastreioInordem();
-        /*
-        
+        System.out.println("Quantidade de nós: " + arvore.qtdNos());
+
         System.out.println("\n\n teste remove caso raiz");
         arvore.remove("teste");
         arvore.rastreioInordem();
         System.out.println(arvore.getRaiz().getPalavra());
-        
-        */
+        System.out.println("Quantidade de nós: " + arvore.qtdNos());
 
 
 

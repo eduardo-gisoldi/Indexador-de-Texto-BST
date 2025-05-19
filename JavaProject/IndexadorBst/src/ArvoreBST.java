@@ -175,47 +175,41 @@ public class ArvoreBST {
         return atual;
         }
         
-        No substituto; // precisaremos de um substituto para o nó atual
-
-        // Encontrar substituto para Caso Atual com apenas Um Filho
-        if ( (atual.getDir() == null && atual.getEsq() != null)
-                || (atual.getDir() != null && atual.getEsq() == null) ) { 
+        
+        // Caso Atual com apenas Um Filho
+        if ((atual.getDir() == null && atual.getEsq() != null)
+        || (atual.getDir() != null && atual.getEsq() == null)) {
             
-            if (paiAtual == null){ // nó raiz
-                // atual tem seu filho à esquerda ou à direita
-                if (atual.getDir() == null && atual.getEsq() != null) {
-                    this.raiz = atual.getEsq();
-                    atual.getEsq().setPai(paiAtual);
-                } else {
-                    this.raiz = atual.getDir();
-                    atual.getDir().setPai(paiAtual);
-                }
-                return atual;
-
-            }else{ 
-                // atual tem seu filho à esquerda ou à direita
-                if (atual.getDir() == null && atual.getEsq() != null) {
-                    substituto = maiorRec(atual.getEsq()); // encontrar o maior nó à esquerda
-                } else {
-                    substituto = menorRec(atual.getDir()); // encontrar o menor nó à direita
-                }
+            // Descobrir qual é o filho existente
+            No filho = (atual.getEsq() != null) ? atual.getEsq() : atual.getDir();
+            
+            if (paiAtual == null) { // nó a ser removido é a raiz
+                this.raiz = filho;
+                filho.setPai(null);
+            } else if (atual.getPalavra().compareTo(paiAtual.getPalavra()) < 0) { // nó a ser removido está à esquerda do pai
+                paiAtual.setEsq(filho); // Pai aponta para o filho no lugar do nó removido
+                filho.setPai(paiAtual); // Atualiza o pai do filho
+            } else { // nó a ser removido está à direita do pai
+                paiAtual.setDir(filho); // Pai aponta para o filho no lugar do nó removido
+                filho.setPai(paiAtual); // Atualiza o pai do filho
             }
-        } else {
-            // Encontrar substituto para Caso Atual com Dois Filhos
-            
-            // Encontrar o melhor candidato para substituto
-            No candidatoEsq = maiorRec(atual.getEsq());
-            No candidatoDir = menorRec(atual.getDir());
-            
-            int resultadoEsq = raiz.getPalavra().compareTo(candidatoEsq.getPalavra());
-            int resultadoDir = raiz.getPalavra().compareTo(candidatoDir.getPalavra());
-            
-            if (Math.abs(resultadoEsq) < Math.abs(resultadoDir)) { // candidatoEsq é mais próximo à raiz
-                substituto = candidatoEsq;
-            } else { // candidatoDir é mais próximo à raiz ou estão à mesma distância
-                substituto = candidatoDir;
-            }
+            return atual; // Retorna o nó removido
         }
+            
+        // Encontrar o melhor candidato para substituir Atual
+        No candidatoEsq = maiorRec(atual.getEsq());
+        No candidatoDir = menorRec(atual.getDir());
+        
+        int resultadoEsq = raiz.getPalavra().compareTo(candidatoEsq.getPalavra());
+        int resultadoDir = raiz.getPalavra().compareTo(candidatoDir.getPalavra());
+        
+        No substituto;
+        if (Math.abs(resultadoEsq) < Math.abs(resultadoDir)) { // candidatoEsq é mais próximo à raiz
+            substituto = candidatoEsq;
+        } else { // candidatoDir é mais próximo à raiz ou estão à mesma distância
+            substituto = candidatoDir;
+        }
+        
         
         // Remover o substituto da sua posição original
         No paiSubstituto = substituto.getPai();
