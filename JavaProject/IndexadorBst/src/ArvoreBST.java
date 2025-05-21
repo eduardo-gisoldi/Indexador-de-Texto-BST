@@ -159,13 +159,11 @@ public class ArvoreBST {
         }
         return null;
     }
-    public No busca() {
+    public No busca(Scanner scanner) {
     System.out.println("A busca eh por palavra inteira ou por substring? (I/S)");
-    Scanner scanner = new Scanner(System.in);
+    String opcao = scanner.nextLine();
 
-    String opcao = scanner.nextLine().toUpperCase();
-
-    while (!opcao.equals("I") && !opcao.equals("S") && !opcao.equals("C")) {
+    while (!opcao.equalsIgnoreCase("I") && !opcao.equalsIgnoreCase("S") && !opcao.equalsIgnoreCase("C")) {
         System.out.println("Opcao invalida. Digite 'I' para palavra inteira ou 'S' para substring. Digite 'C' para cancelar.");
         opcao = scanner.nextLine().toUpperCase();
     }
