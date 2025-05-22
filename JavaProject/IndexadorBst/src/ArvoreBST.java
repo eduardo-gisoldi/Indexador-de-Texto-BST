@@ -165,10 +165,10 @@ public class ArvoreBST {
 
     while (!opcao.equalsIgnoreCase("I") && !opcao.equalsIgnoreCase("S") && !opcao.equalsIgnoreCase("C")) {
         System.out.println("Opcao invalida. Digite 'I' para palavra inteira ou 'S' para substring. Digite 'C' para cancelar.");
-        opcao = scanner.nextLine().toUpperCase();
+        opcao = scanner.nextLine();
     }
     
-    if (opcao.equals("S")) {
+    if (opcao.equalsIgnoreCase("S")) {
         System.out.println("Digite a substring (retorna o primeiro resultado que a contem):");
         String s = scanner.nextLine();
 
@@ -178,7 +178,7 @@ public class ArvoreBST {
 
         System.out.println("Tempo de busca (substring): " + (fim - inicio) + " ns");
         return resultado;
-    } else if (opcao.equals("I")) {
+    } else if (opcao.equalsIgnoreCase("I")) {
         System.out.println("Digite a palavra:");
         String i = scanner.nextLine();
 

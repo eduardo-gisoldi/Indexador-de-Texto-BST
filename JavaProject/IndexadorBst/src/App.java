@@ -29,7 +29,7 @@ public class App {
      * @param arvore ArvoreBST que contém as palavras indexadas.
      */
     private static void menu(Scanner scanner, ArvoreBST arvore) {
-        int opcao;
+        String opcao;
         do {
             espera(scanner);
             limparTela();
@@ -43,30 +43,30 @@ public class App {
             System.out.println("4. Remover palavra");
             System.out.println("5. Sair do programa");
             
-            opcao = scanner.nextInt();
+            opcao = scanner.nextLine();
     
             switch (opcao) {
-                case 1 -> {
+                case "1" -> {
                     System.out.println("Lista de todas as palavras no arquivo: ");
                     arvore.rastreioInordem();
                 }
-                case 2 -> {
+                case "2" -> {
                     No resultado = arvore.busca(scanner);
                     if (resultado == null) System.out.println("Palavra não encontrada.");
                 }
-                case 3 -> {
+                case "3" -> {
                     System.out.println("Digite a nova palavra que deseja adicionar:");
-                    String novaPalavra = scanner.next();
+                    String novaPalavra = scanner.nextLine();
                     arvore.insere(novaPalavra);
                     System.out.println("Palavra '" + novaPalavra + "' adicionada com sucesso!");
                 }
-                case 4 -> {
+                case "4" -> {
                     System.out.println("Digite a palavra que deseja remover:");
-                    String palavraRemover = scanner.next();
+                    String palavraRemover = scanner.nextLine();
                     No resultado = arvore.remove(palavraRemover);
                     if (resultado != null) System.out.println("A palavra '" + palavraRemover + "' foi removida com sucesso!");
                 }
-                case 5 -> {
+                case "5" -> {
                     System.out.println("Saindo do programa...");
                     return;
                 }
@@ -75,7 +75,7 @@ public class App {
                     System.out.println("Opção inválida. Tente novamente.");
                 }
             }
-        } while (opcao != 5);
+        } while (!opcao.equals("5"));
 
     }
     
