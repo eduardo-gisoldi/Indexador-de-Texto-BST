@@ -3,21 +3,88 @@ import java.util.Scanner;
 
 public class App {
 
-    private static void menu() {
-        System.out.println("Otimo, agora escolha uma opção:");
-        System.out.println("1. Buscar palavra inteira");
-        System.out.println("2. Buscar palavra por substring");
-        System.out.println("3. Adicionar nova palavra");
-        System.out.println("4. Remover palavra");
-        System.out.println("5. Sair");
-        
+    /**
+     * Limpa a tela do console.
+     */
+    private static void limparTela() {
+        try {
+            new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
+        } catch (Exception e) {
+            for (int i = 0; i < 50; ++i) System.out.println();
+        }
+    }
+
+    /**
+     * Aguarda o usuário pressionar uma tecla para continuar.
+     * @param scanner Scanner para ler a entrada do usuário.
+     */
+    private static void espera(Scanner scanner) {
+        System.out.println("\n\nPressione qualquer tecla para continuar.");
+        scanner.nextLine(); 
+    }
+
+    /**
+     * Exibe o menu de opções para o usuário.
+     * @param scanner Scanner para ler a entrada do usuário.
+     * @param arvore ArvoreBST que contém as palavras indexadas.
+     */
+    private static void menu(Scanner scanner, ArvoreBST arvore) {
+        int opcao;
+        do {
+            espera(scanner);
+            limparTela();
+            System.out.println("\n\n--- Menu ---");
+            System.out.println("A arvore contém " + arvore.qtdNos() + " palavras unicas indexadas.");
+            
+            System.out.println("\n Escolha uma opção:");
+            System.out.println("1. Listar palavras em ordem, com quantidade de ocorrências");
+            System.out.println("2. Buscar palavra");
+            System.out.println("3. Adicionar nova palavra");
+            System.out.println("4. Remover palavra");
+            System.out.println("5. Sair do programa");
+            
+            opcao = scanner.nextInt();
+    
+            switch (opcao) {
+                case 1 -> {
+                    System.out.println("Lista de todas as palavras no arquivo: ");
+                    arvore.rastreioInordem();
+                }
+                case 2 -> {
+                    No resultado = arvore.busca(scanner);
+                    if (resultado == null) System.out.println("Palavra não encontrada.");
+                }
+                case 3 -> {
+                    System.out.println("Digite a nova palavra que deseja adicionar:");
+                    String novaPalavra = scanner.next();
+                    arvore.insere(novaPalavra);
+                    System.out.println("Palavra '" + novaPalavra + "' adicionada com sucesso!");
+                }
+                case 4 -> {
+                    System.out.println("Digite a palavra que deseja remover:");
+                    String palavraRemover = scanner.next();
+                    No resultado = arvore.remove(palavraRemover);
+                    if (resultado != null) System.out.println("A palavra '" + palavraRemover + "' foi removida com sucesso!");
+                }
+                case 5 -> {
+                    System.out.println("Saindo do programa...");
+                    return;
+                }
+            
+                default -> {
+                    System.out.println("Opção inválida. Tente novamente.");
+                }
+            }
+        } while (opcao != 5);
+
     }
     
     public static void main(String[] args) throws Exception {
         // Inicializar programa
         System.out.println("Bem-vindo ao indexador de palavras!"); 
         System.out.println("Primeiro, escreva o caminho absoluto do arquivo de texto que deseja indexar:");
-        System.out.println("Exemplo: C:\\Users\\SeuUsuario\\Documents\\arquivo.txt  \n(NECESSARIO ESCREVER O CAMINHO ABSOLUTO DE UM ARQUIVO TXT)");
+        System.out.println("Exemplo: C:\\Users\\SeuUsuario\\Documents\\arquivo.txt \n(NECESSARIO ESCREVER O CAMINHO ABSOLUTO DE UM ARQUIVO TXT)");
+
         File arquivo;
         try (Scanner scanner = new Scanner(System.in)) {
 
@@ -37,7 +104,6 @@ public class App {
                     return;
                 }
             }
-
             
             // Criar BST e indexar palavras
             ArvoreBST arvore = new ArvoreBST();
@@ -60,32 +126,17 @@ public class App {
             }
     
             System.out.println("Indexação concluída com sucesso!");
-    
-            System.out.println("A árvore contém " + arvore.qtdNos() + " palavras indexadas.");
-            
-            arvore.busca(scanner);
-            
-            arvore.rastreioInordem();
-    
-            /* terceiro: mostrar para o usuário:
-                *         1.quantidade de palavras armazenadas
-                *         2. buscar palavra inteira
-                *                -> se não existir, perguntar se quer adicionar
-                *                -> mostrar tempo gasto na busca
-                *         3. buscar palavra por substring
-                *         4. adicionar nova palavra
-                *         5. remover palavra
-            */
-            menu();
-    
-    
-            
-    
+
+
+            // programa em execução
+            menu(scanner, arvore);
+
+            // final do programa
             System.out.println("Obrigado por usar o indexador de palavras!");
+            espera(scanner);
 
         } catch (Exception e) {
             System.out.println("Erro ao ler o arquivo: " + e.getMessage());
-            return;
         }
     }
 }

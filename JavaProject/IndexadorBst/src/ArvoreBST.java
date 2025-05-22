@@ -147,7 +147,7 @@ public class ArvoreBST {
                 return encontradoEsq;
             }
             // Verifica o no atual
-            if (no.getPalavra().contains(substring)) {
+            if (no.getPalavra().contains(substring)) { // Se a palavra contém a substring, retorna o nó 
                 System.out.println(no.getPalavra() + " (qtd: " + no.getQtd() + ")");
                 return no;
             }
@@ -160,7 +160,7 @@ public class ArvoreBST {
         return null;
     }
     public No busca(Scanner scanner) {
-    System.out.println("A busca eh por palavra inteira ou por substring? (I/S)");
+    System.out.println("\nA busca eh por palavra inteira ou por substring? (I/S) ou cancelar (C)");
     String opcao = scanner.nextLine();
 
     while (!opcao.equalsIgnoreCase("I") && !opcao.equalsIgnoreCase("S") && !opcao.equalsIgnoreCase("C")) {
@@ -169,7 +169,7 @@ public class ArvoreBST {
     }
     
     if (opcao.equals("S")) {
-        System.out.println("Digite a substring (retornara o primeiro resultado):");
+        System.out.println("Digite a substring (retorna o primeiro resultado que a contem):");
         String s = scanner.nextLine();
 
         long inicio = System.nanoTime();
@@ -185,6 +185,9 @@ public class ArvoreBST {
         long inicio = System.nanoTime();
         No resultado = buscaRec(raiz, i);
         long fim = System.nanoTime();
+        if (resultado != null) {
+            System.out.println("Palavra encontrada: " + resultado.getPalavra() + " (qtd: " + resultado.getQtd() + ")");
+        } 
 
         System.out.println("Tempo de busca (palavra inteira): " + (fim - inicio) + " ns");
         return resultado;
@@ -193,8 +196,6 @@ public class ArvoreBST {
     System.out.println("Operacao Cancelada");
     return null;
 }
-
-
 
 
     /**
@@ -300,7 +301,7 @@ public class ArvoreBST {
         No noPai = new No("null");
         if (x.getPai() != null) noPai = x.getPai();
     
-        System.out.print(x.getPalavra() + ", qtd: " + x.getQtd() + ", pai: " + noPai.getPalavra() + "\n");
+        System.out.println(x.getPalavra() + " (qtd: " + x.getQtd() + ")"); //+ ", pai: " + noPai.getPalavra() + "\n");
     }
 
     // Funçao para rastreio in-ordem
