@@ -298,6 +298,7 @@ public class ArvoreBST {
      */
     private void mostraElemento(No x) {
         // se o no nao tem pai, imprime "null"
+        @SuppressWarnings("unused")
         No noPai = new No("null");
         if (x.getPai() != null) noPai = x.getPai();
     

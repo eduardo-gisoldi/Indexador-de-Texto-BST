@@ -34,9 +34,9 @@ public class App {
             espera(scanner);
             limparTela();
             System.out.println("\n\n--- Menu ---");
-            System.out.println("A arvore contém " + arvore.qtdNos() + " palavras unicas indexadas.");
+            System.out.println("A arvore contem " + arvore.qtdNos() + " palavras unicas indexadas.");
             
-            System.out.println("\n Escolha uma opção:");
+            System.out.println("\n Escolha uma opcao:");
             System.out.println("1. Listar palavras em ordem, com quantidade de ocorrências");
             System.out.println("2. Buscar palavra");
             System.out.println("3. Adicionar nova palavra");
@@ -46,34 +46,32 @@ public class App {
             opcao = scanner.nextLine();
     
             switch (opcao) {
-                case "1" -> {
+                case "1":
                     System.out.println("Lista de todas as palavras no arquivo: ");
                     arvore.rastreioInordem();
-                }
-                case "2" -> {
+                    break;
+                case "2":
                     No resultado = arvore.busca(scanner);
-                    if (resultado == null) System.out.println("Palavra não encontrada.");
-                }
-                case "3" -> {
+                    if (resultado == null) System.out.println("Palavra nao encontrada.");
+                    break;
+                case "3":
                     System.out.println("Digite a nova palavra que deseja adicionar:");
                     String novaPalavra = scanner.nextLine();
                     arvore.insere(novaPalavra);
                     System.out.println("Palavra '" + novaPalavra + "' adicionada com sucesso!");
-                }
-                case "4" -> {
+                    break;
+                case "4":
                     System.out.println("Digite a palavra que deseja remover:");
                     String palavraRemover = scanner.nextLine();
-                    No resultado = arvore.remove(palavraRemover);
-                    if (resultado != null) System.out.println("A palavra '" + palavraRemover + "' foi removida com sucesso!");
-                }
-                case "5" -> {
+                    No resultadoRemover = arvore.remove(palavraRemover);
+                    if (resultadoRemover != null) System.out.println("A palavra '" + palavraRemover + "' foi removida com sucesso!");
+                    break;
+                case "5":
                     System.out.println("Saindo do programa...");
-                    return;
-                }
-            
-                default -> {
-                    System.out.println("Opção inválida. Tente novamente.");
-                }
+                    break;
+                default:
+                    System.out.println("Opção invalida. Tente novamente.");
+                    break;
             }
         } while (!opcao.equals("5"));
 
