@@ -1,3 +1,4 @@
+import java.text.Normalizer;
 import java.util.Scanner;
 
 public class ArvoreBST {
@@ -40,6 +41,27 @@ public class ArvoreBST {
         }
     }
     public No insere(String v) {
+        if (v == null) return null;
+
+        
+        // Substitui cedilha por c (caso especial)
+        v = v.replace("ç", "c").replace("Ç", "C");
+
+        // Remove acentos
+        v = Normalizer.normalize(v, Normalizer.Form.NFD)
+            .replaceAll("[\\p{InCombiningDiacriticalMarks}]", "");
+
+        v = v.trim().toLowerCase();
+
+        // Remove caracteres especiais do final da palavra
+        v = v.replaceAll("[^a-zA-Z0-9]+", "");
+
+        // Aceitar apenas letras e números
+        if (v.isEmpty() || !v.matches("[a-zA-Z0-9]+")) {
+            System.err.println("Valor invalido nao indexado: " + v);
+            return null;
+        }
+
         No novo = new No(v);
 
         if (this.vazia()) {
@@ -205,7 +227,7 @@ public class ArvoreBST {
     public No remove(String valor){
             // Caso Arvore Vazia
         if (this.vazia()) {
-            System.err.println("Arvore vazia, remover nao eh possível.");
+            System.err.println("Arvore vazia, remover nao eh possivel.");
             return null; 
         }
 
@@ -213,7 +235,7 @@ public class ArvoreBST {
 
         // Caso Elemento Nao Encontrado
         if (atual == null) {
-            System.err.println("Elemento nao encontrado na arvore, nao eh possível remover.");
+            System.err.println("Elemento nao encontrado na arvore, nao eh possivel remover.");
             return null; 
         }
 

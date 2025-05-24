@@ -57,8 +57,8 @@ public class App {
                 case "3":
                     System.out.println("Digite a nova palavra que deseja adicionar:");
                     String novaPalavra = scanner.nextLine();
-                    arvore.insere(novaPalavra);
-                    System.out.println("Palavra '" + novaPalavra + "' adicionada com sucesso!");
+                    No result = arvore.insere(novaPalavra);
+                    if (result != null) System.out.println("Palavra '" + novaPalavra + "' adicionada com sucesso!");
                     break;
                 case "4":
                     System.out.println("Digite a palavra que deseja remover:");
@@ -70,7 +70,7 @@ public class App {
                     System.out.println("Saindo do programa...");
                     break;
                 default:
-                    System.out.println("Opção invalida. Tente novamente.");
+                    System.out.println("Opcao invalida. Tente novamente.");
                     break;
             }
         } while (!opcao.equals("5"));
@@ -93,11 +93,11 @@ public class App {
                 
                 if (arquivo.exists() && arquivo.isFile() && arquivo.canRead()) break;
                 
-                System.out.println("Caminho inválido. Digite 'C' para cancelar ou tente novamente:");
+                System.out.println("Caminho invalido. Digite 'C' para cancelar ou tente novamente:");
                 caminho = scanner.nextLine();
                 
                 if (caminho.equalsIgnoreCase("C")) { // operação cancelada prematuramente.
-                    System.out.println("Operação cancelada. Obrigado por usar o indexador de palavras!");
+                    System.out.println("Operacao cancelada. Obrigado por usar o indexador de palavras!");
                     scanner.close();
                     return;
                 }
@@ -114,7 +114,7 @@ public class App {
                     arvore.insere(palavra);
                     count++;
                     if (count % 100 == 0) {
-                        System.out.println(count + " palavras indexadas até o momento...");
+                        System.out.println(count + " palavras indexadas ate o momento...");
                     } 
                 }
                 leitor.close();
@@ -123,7 +123,7 @@ public class App {
                 return;
             }
     
-            System.out.println("Indexação concluída com sucesso!");
+            System.out.println("Indexacao concluida com sucesso!");
 
 
             // programa em execução
