@@ -1,10 +1,15 @@
 import java.io.File;
 import java.util.Scanner;
 
+/**
+ * Classe principal do programa de indexação de palavras.
+ * Este programa lê um arquivo de texto, indexa as palavras em uma árvore binária de busca (BST).
+ * Permite ao usuário realizar operações como listar palavras, buscar, adicionar e remover palavras.
+ */
 public class App {
 
     /**
-     * Limpa a tela do console.
+     * Limpa a tela do console no Windows. Caso não seja possível, imprime várias linhas em branco.
      */
     private static void limparTela() {
         try {
@@ -24,7 +29,7 @@ public class App {
     }
 
     /**
-     * Exibe o menu de opções para o usuário.
+     * Exibe e controla o menu de opções para o usuário.
      * @param scanner Scanner para ler a entrada do usuário.
      * @param arvore ArvoreBST que contém as palavras indexadas.
      */
@@ -37,17 +42,17 @@ public class App {
             System.out.println("A arvore contem " + arvore.qtdNos() + " palavras unicas indexadas.");
             
             System.out.println("\n Escolha uma opcao:");
-            System.out.println("1. Listar palavras em ordem, com quantidade de ocorrências");
+            System.out.println("1. Listar palavras em ordem, com quantidade de ocorrencias");
             System.out.println("2. Buscar palavra");
             System.out.println("3. Adicionar nova palavra");
             System.out.println("4. Remover palavra");
             System.out.println("5. Sair do programa");
             
-            opcao = scanner.nextLine();
-    
+            opcao = scanner.nextLine().trim();
+
             switch (opcao) {
                 case "1":
-                    System.out.println("Lista de todas as palavras no arquivo: ");
+                    System.out.println("Lista de todas as palavras no arquivo:");
                     arvore.rastreioInordem();
                     break;
                 case "2":
@@ -58,7 +63,7 @@ public class App {
                     System.out.println("Digite a nova palavra que deseja adicionar:");
                     String novaPalavra = scanner.nextLine();
                     No result = arvore.insere(novaPalavra);
-                    if (result != null) System.out.println("Palavra '" + novaPalavra + "' adicionada com sucesso!");
+                    // Mensagem de sucesso já é exibida pelo método insere
                     break;
                 case "4":
                     System.out.println("Digite a palavra que deseja remover:");
@@ -74,9 +79,14 @@ public class App {
                     break;
             }
         } while (!opcao.equals("5"));
-
     }
     
+    /**
+     * Método principal que inicia o programa.
+     * Solicita ao usuário o caminho do arquivo a ser indexado e executa as operações de indexação.
+     * @param args Argumentos da linha de comando (não utilizados).
+     * @throws Exception Se ocorrer um erro ao ler o arquivo.
+     */
     public static void main(String[] args) throws Exception {
         // Inicializar programa
         System.out.println("Bem-vindo ao indexador de palavras!"); 
@@ -86,22 +96,22 @@ public class App {
         File arquivo;
         try (Scanner scanner = new Scanner(System.in)) {
 
-            String caminho = scanner.nextLine();
-            arquivo = new File(caminho);
-            // Verifica se o caminho nos retorna um arquivo válido
-            while (true) {
-                
-                if (arquivo.exists() && arquivo.isFile() && arquivo.canRead()) break;
-                
-                System.out.println("Caminho invalido. Digite 'C' para cancelar ou tente novamente:");
+            // Solicitar caminho do arquivo até que seja válido ou seja cancelado
+            String caminho;
+            boolean caminhoValido = false;
+            do {
                 caminho = scanner.nextLine();
-                
-                if (caminho.equalsIgnoreCase("C")) { // operação cancelada prematuramente.
+                if (caminho.equalsIgnoreCase("C")) {
                     System.out.println("Operacao cancelada. Obrigado por usar o indexador de palavras!");
-                    scanner.close();
                     return;
                 }
-            }
+                arquivo = new File(caminho);
+                if (arquivo.exists() && arquivo.isFile() && arquivo.canRead()) {
+                    caminhoValido = true;
+                } else {
+                    System.out.println("Caminho invalido. Digite 'C' para cancelar ou tente novamente:");
+                }
+            } while (!caminhoValido);
             
             // Criar BST e indexar palavras
             ArvoreBST arvore = new ArvoreBST();
@@ -117,7 +127,6 @@ public class App {
                         System.out.println(count + " palavras indexadas ate o momento...");
                     } 
                 }
-                leitor.close();
             } catch (Exception e) {
                 System.out.println("Erro ao ler o arquivo: " + e.getMessage());
                 return;
@@ -126,10 +135,10 @@ public class App {
             System.out.println("Indexacao concluida com sucesso!");
 
 
-            // programa em execução
+            // Programa em execução
             menu(scanner, arvore);
 
-            // final do programa
+            // Final do programa
             System.out.println("Obrigado por usar o indexador de palavras!");
             espera(scanner);
 

@@ -1,12 +1,23 @@
+/**
+ * Classe que representa um nó da árvore binária de busca (BST).
+ * Cada nó armazena uma palavra, referências para o pai, filho esquerdo, filho direito
+ * e a quantidade de ocorrências da palavra.
+ */
 public class No {
-    // Atributos:
-    private String palavra; // palavra armazenado no nó
-    private No pai;         // nó pai
-    private No esq;         // filho esquerdo
-    private No dir;         // filho direito
-    private int qtd;        // quantidade de ocorrências da palavra
+    // --- Atributos ---
+    private String palavra; // Palavra armazenada no nó
+    private No pai;         // Referência para o nó pai
+    private No esq;         // Referência para o filho esquerdo
+    private No dir;         // Referência para o filho direito
+    private int qtd;        // Quantidade de ocorrências da palavra
 
-    // Construtor
+    // --- Construtor ---
+
+    /**
+     * Cria um novo nó com a palavra informada.
+     * Inicializa as referências dos filhos e do pai como null e a quantidade como 1.
+     * @param palavra Palavra a ser armazenada no nó.
+     */
     No(String palavra) {
         this.palavra = palavra;
         this.pai = null;
@@ -15,13 +26,18 @@ public class No {
         this.qtd = 1;
     }
 
-    
-    // Incrementa a quantidade de ocorrências da palavra em 1.
+    // --- Métodos de Utilidade ---
+
+    /**
+     * Incrementa a quantidade de ocorrências da palavra em 1.
+     */
     public void incQtd() {
         this.qtd++;
     }
 
-    // Mostra os dados do nó.
+    /**
+     * Exibe os dados do nó no console, incluindo palavra, quantidade, filhos e pai.
+     */
     public void showNo() {
         System.out.println("---\nPalavra: " + palavra + " | Qtd: " + qtd);
         System.out.println("Filho esquerdo: " + (esq != null ? esq.getPalavra() : "null"));
@@ -30,6 +46,7 @@ public class No {
         System.out.println("---");
     }
 
+    // --- Getters e Setters ---
 
     // Getters e Setters
     public String getPalavra() {
@@ -66,5 +83,4 @@ public class No {
     public void setQtd(int qtd) {
         this.qtd = qtd;
     }
-
 }
