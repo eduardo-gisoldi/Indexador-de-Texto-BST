@@ -56,7 +56,7 @@ public class ArvoreBST {
      * @param v Palavra a ser inserida.
      * @return O nó inserido ou null se a palavra for inválida.
      */
-    public No insere(String v) {
+    public No insere(String v, Boolean mostrarMensagem) {
         if (v == null) return null;
 
         // Substitui cedilha por c (caso especial)
@@ -73,7 +73,7 @@ public class ArvoreBST {
 
         // Aceitar apenas letras e números
         if (v.isEmpty() || !v.matches("[a-zA-Z0-9]+")) {
-            System.err.println("Valor invalido nao indexado: " + v);
+            System.err.println("\nValor invalido nao indexado: " + v);
             return null;
         }
 
@@ -86,11 +86,13 @@ public class ArvoreBST {
 
         No resultado = insereRec(raiz, novo); // Insere o novo nó na árvore
 
-        String mensagem = resultado.getQtd() == 1
-                ? ("Palavra '" + v + "' inserida com sucesso!")
-                : ("Palavra '" + v + "' ja existe, quantidade incrementada para: " + resultado.getQtd());
-
-        System.out.println(mensagem);
+        if (mostrarMensagem){
+            String mensagem = resultado.getQtd() == 1
+                    ? ("Palavra '" + v + "' inserida com sucesso!")
+                    : ("Palavra '" + v + "' ja existe, quantidade incrementada para: " + resultado.getQtd());
+    
+            System.out.println(mensagem);
+        }
 
         return resultado;
     }

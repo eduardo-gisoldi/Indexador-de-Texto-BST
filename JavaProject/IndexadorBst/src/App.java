@@ -62,7 +62,7 @@ public class App {
                 case "3":
                     System.out.println("Digite a nova palavra que deseja adicionar:");
                     String novaPalavra = scanner.nextLine();
-                    No result = arvore.insere(novaPalavra);
+                    arvore.insere(novaPalavra, true);
                     // Mensagem de sucesso já é exibida pelo método insere
                     break;
                 case "4":
@@ -113,6 +113,18 @@ public class App {
                 }
             } while (!caminhoValido);
             
+            // Permitir ao usuário ver o resultado da indexação palavra por palavra.
+            limparTela();
+            System.out.println("Arquivo encontrado! Ele sera indexado em uma arvore binaria de busca (BST). Voce quer ver o resultado da indexacao de cada palavra ou quer saber apenas do resultado?");
+            System.out.println("Digite 'P' para ver cada palavra indexada ou 'R' para apenas o resultado final.");
+            String mostrar = scanner.nextLine();
+            Boolean mostrarPalavras = false;
+            if (mostrar.equalsIgnoreCase("P")) {
+                mostrarPalavras = true;
+            } else if (!mostrar.equalsIgnoreCase("R")) {
+                System.out.println("Opcao invalida. Continuando normalmente...");
+            }
+
             // Criar BST e indexar palavras
             ArvoreBST arvore = new ArvoreBST();
             System.out.println("\n\nIndexando palavras... \n");
@@ -121,10 +133,10 @@ public class App {
                 int count = 0;
                 while (leitor.hasNext()) {
                     String palavra = leitor.next();
-                    arvore.insere(palavra);
+                    arvore.insere(palavra, mostrarPalavras);
                     count++;
                     if (count % 100 == 0) {
-                        System.out.println(count + " palavras indexadas ate o momento...");
+                        System.out.println("\n" + count + " palavras indexadas ate o momento...");
                     } 
                 }
             } catch (Exception e) {
@@ -132,7 +144,7 @@ public class App {
                 return;
             }
     
-            System.out.println("Indexacao concluida com sucesso!");
+            System.out.println("\n\n\nIndexacao concluida com sucesso!");
 
 
             // Programa em execução
