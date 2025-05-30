@@ -1,4 +1,5 @@
 import java.io.File;
+import java.io.FileInputStream;
 import java.util.Scanner;
 
 /**
@@ -60,6 +61,7 @@ public class App {
                     if (resultado == null) System.out.println("Palavra nao encontrada.");
                     break;
                 case "3":
+                    System.out.println("\n ------------- \nATENCAO: Adicionar palavras com caracteres invalidos (acentos e cedilhas) diretamente pelo terminal nao é uma funcionalidade inclusa no momento pois nao podemos forcar o terminal a ter o encoding UTF-8 necessario para o programa normalizar as palavras corretamente.\n Por favor digite palavras sem acentos ou cedilhas e aguarde a nova versao do programa com uma interface grafica especializada que sera disponibilizada na versao 2.0\n ------------- \n");
                     System.out.println("Digite a nova palavra que deseja adicionar:");
                     String novaPalavra = scanner.nextLine();
                     arvore.insere(novaPalavra, true);
@@ -89,6 +91,8 @@ public class App {
      */
     public static void main(String[] args) throws Exception {
         // Inicializar programa
+        limparTela();
+        System.out.println("=========================================");
         System.out.println("Bem-vindo ao indexador de palavras!"); 
         System.out.println("Primeiro, escreva o caminho absoluto do arquivo de texto que deseja indexar:");
         System.out.println("Exemplo: C:\\Users\\SeuUsuario\\Documents\\arquivo.txt \n(NECESSARIO ESCREVER O CAMINHO ABSOLUTO DE UM ARQUIVO TXT)");
@@ -115,8 +119,8 @@ public class App {
             
             // Permitir ao usuário ver o resultado da indexação palavra por palavra.
             limparTela();
-            System.out.println("Arquivo encontrado! Ele sera indexado em uma arvore binaria de busca (BST). Voce quer ver o resultado da indexacao de cada palavra ou quer saber apenas do resultado?");
-            System.out.println("Digite 'P' para ver cada palavra indexada ou 'R' para apenas o resultado final.");
+            System.out.println("Arquivo encontrado! Ele sera indexado em uma arvore binaria de busca (BST). \nVoce quer ver o resultado da indexacao de cada palavra ou quer saber apenas do resultado?");
+            System.out.println("\nDigite 'P' para ver cada palavra indexada ou 'R' para apenas o resultado final.");
             String mostrar = scanner.nextLine();
             Boolean mostrarPalavras = false;
             if (mostrar.equalsIgnoreCase("P")) {
@@ -129,7 +133,7 @@ public class App {
             ArvoreBST arvore = new ArvoreBST();
             System.out.println("\n\nIndexando palavras... \n");
             
-            try (Scanner leitor = new Scanner(arquivo)) {
+            try (Scanner leitor = new Scanner(new FileInputStream(arquivo), "UTF-8")) {
                 int count = 0;
                 while (leitor.hasNext()) {
                     String palavra = leitor.next();
