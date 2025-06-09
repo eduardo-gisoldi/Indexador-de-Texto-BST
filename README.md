@@ -7,6 +7,7 @@ Este projeto foi desenvolvido como parte de um trabalho acadêmico para demonstr
 O objetivo é permitir que o programa leia um arquivo `.txt` do usuário, indexe todas as palavras em uma BST e possa realizar buscas, inserções e remoções de palavras de forma simples e eficiente.
 
 ## Como usar
+Video de demonstração da instalação e do uso: https://youtu.be/ET9rKXXixzk
 
 1. Faça o download do arquivo ZIP da versão mais recente na seção [Releases](../../releases).
 2. Extraia o conteúdo do ZIP em uma pasta de sua preferência.
