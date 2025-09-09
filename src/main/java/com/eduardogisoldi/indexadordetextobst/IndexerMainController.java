@@ -3,7 +3,7 @@ package com.eduardogisoldi.indexadordetextobst;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 
-public class HelloController {
+public class IndexerMainController {
     @FXML
     private Label welcomeText;
 
