@@ -5,6 +5,7 @@ module com.eduardogisoldi.indexadordetextobst {
     requires org.controlsfx.controls;
     requires com.dlsc.formsfx;
     requires org.kordamp.ikonli.javafx;
+    requires javafx.graphics;
 
     opens com.eduardogisoldi.indexadordetextobst to javafx.fxml;
     exports com.eduardogisoldi.indexadordetextobst;
