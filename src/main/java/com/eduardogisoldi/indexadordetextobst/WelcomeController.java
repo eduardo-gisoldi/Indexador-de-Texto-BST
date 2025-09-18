@@ -2,28 +2,38 @@ package com.eduardogisoldi.indexadordetextobst;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 public class WelcomeController {
+
+    private Parent root;
+    private Stage stage;
+    private Scene scene;
+
     @FXML
-    private Label welcomeLbl;
+    private Label instructionLbl;
     @FXML
     private Button fileChooserBtn;
     @FXML
-    private Label selectedLbl;
+    private TextArea txtArea;
     @FXML
-    private TextArea txtView;
+    private Button voltarBtn;
     @FXML
-    private Label confirmLbl;
-    @FXML
-    private Button selectionConfirmedBtn;
-
+    private Button confirmarBtn;
 
     @FXML
     public void chooseFile(ActionEvent event) throws IOException {
@@ -32,24 +42,47 @@ public class WelcomeController {
         txtChooser.setTitle("Escolha um arquivo:");
         txtChooser.setInitialDirectory(new File("C:\\"));
         txtChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Arquivo TXT", "*.txt"));
-
         File selectedArchive = txtChooser.showOpenDialog(null);
-        if (selectedArchive != null) {
-            selectedLbl.setVisible(true);
-            txtView.setVisible(true);
-            confirmLbl.setVisible(true);
-            selectionConfirmedBtn.setVisible(true);
+        if (selectedArchive != null) { // file was selected
 
-            selectedLbl.setText(selectedArchive.getName().concat(" selecionado!"));
+            // loading confirmation screen
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("welcome-2-view.fxml"));
+            root = loader.load();
+            WelcomeController controller = loader.getController();
+            controller.displayArchive(selectedArchive);
+            stage = (Stage) fileChooserBtn.getScene().getWindow();
+            scene = new Scene(root);
+            stage.setScene(scene);
+            stage.show();
 
-            displayArchive(selectedArchive.getPath());
+        } else { // no file was selected
+            instructionLbl.setText("Nenhum arquivo válido selecionado. Tente novamente.");
+            instructionLbl.setFont(Font.font("System", FontWeight.BOLD, 24));
         }
     }
 
     @FXML
-    public void displayArchive(String filePath) {
-        System.out.println(filePath);
+    public void displayArchive(File file) throws IOException {
+        // Displaying file content in TextArea
+        String content = new String(Files.readAllBytes(Paths.get(file.getAbsolutePath())));
+        txtArea.setText(content);
+        txtArea.setEditable(false);
     }
 
+    @FXML
+    public void back(ActionEvent e) throws IOException {
+        // loading welcome screen
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("welcome-2-view.fxml"));
+        root = loader.load();
+        stage = (Stage) voltarBtn.getScene().getWindow();
+        scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
+    }
 
+    @FXML
+    public void confirm(ActionEvent e) {
+        MainController mainController = new MainController();
+        mainController.startMainScreen(e);
+    }
 }

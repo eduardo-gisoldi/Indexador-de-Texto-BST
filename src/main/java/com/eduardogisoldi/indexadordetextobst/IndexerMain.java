@@ -13,17 +13,14 @@ import java.io.IOException;
 public class IndexerMain extends Application {
     @Override
     public void start(Stage stage) throws IOException {
-
         //FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("main-view.fxml")); //pre-built
+        // Parent mainRoot = FXMLLoader.load(getClass().getResource("main-view.fxml"));
 
         Parent welcomeRoot = FXMLLoader.load(getClass().getResource("welcome-view.fxml"));
-        Parent mainRoot = FXMLLoader.load(getClass().getResource("main-view.fxml"));
         Scene scene = new Scene(welcomeRoot);
         stage.setTitle("Indexador de Texto v2.0");
         stage.setScene(scene);
         stage.show();
-
-
 
     }
 

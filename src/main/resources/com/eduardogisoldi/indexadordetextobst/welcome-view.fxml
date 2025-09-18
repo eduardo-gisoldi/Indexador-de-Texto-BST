@@ -2,7 +2,6 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
@@ -13,26 +12,18 @@
             <Font name="System Bold" size="28.0" />
          </font>
       </Label>
-      <Label fx:id="intructionLbl" layoutX="37.0" layoutY="59.0" text="Primeiro, escolha o arquivo .txt que você quer indexar.&#10;" textAlignment="CENTER">
+      <Label fx:id="instructionLbl" layoutX="37.0" layoutY="52.0" prefHeight="142.0" prefWidth="526.0" text="Primeiro, escolha o arquivo .txt que você quer indexar.&#10;" textAlignment="CENTER">
          <font>
             <Font size="22.0" />
          </font>
       </Label>
-      <Button fx:id="fileChooserBtn" layoutX="236.0" layoutY="91.0" mnemonicParsing="false" onAction="#chooseFile" prefHeight="46.0" prefWidth="126.0" text="Escolher arquivo" />
-      <Label fx:id="selectedLbl" layoutX="33.0" layoutY="137.0" prefHeight="27.0" prefWidth="534.0" text="Arquivo escolhido:" visible="false" wrapText="true">
+      <Button fx:id="fileChooserBtn" layoutX="210.0" layoutY="195.0" mnemonicParsing="false" onAction="#chooseFile" prefHeight="46.0" prefWidth="178.0" text="Escolher arquivo" textAlignment="CENTER">
          <font>
-            <Font size="18.0" />
-         </font>
-      </Label>
-      <TextArea fx:id="txtView" layoutX="32.0" layoutY="175.0" prefHeight="200.0" prefWidth="534.0" visible="false" />
-      <Button fx:id="selectionConfirmedBtn" layoutX="523.0" layoutY="384.0" mnemonicParsing="false" prefHeight="32.0" prefWidth="58.0" text="Next" visible="false">
+            <Font name="System Bold" size="18.0" />
+         </font></Button>
+      <Label layoutX="68.0" layoutY="257.0" prefHeight="142.0" prefWidth="462.0" text="Todas as palavras presentes nele serão armazenadas em uma Árvore Binária de Busca para sua visualização e manipulação." textAlignment="CENTER" wrapText="true">
          <font>
-            <Font name="System Bold" size="16.0" />
-         </font>
-      </Button>
-      <Label fx:id="confirmLbl" layoutX="415.0" layoutY="384.0" text="Confirma?" visible="false">
-         <font>
-            <Font name="System Italic" size="24.0" />
+            <Font name="System Italic" size="22.0" />
          </font>
       </Label>
    </children>
