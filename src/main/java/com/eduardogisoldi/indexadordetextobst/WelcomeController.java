@@ -3,6 +3,7 @@ package com.eduardogisoldi.indexadordetextobst;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -36,7 +37,7 @@ public class WelcomeController {
     private Button confirmarBtn;
 
     @FXML
-    public void chooseFile(ActionEvent event) throws IOException {
+    public void chooseFile(ActionEvent e) throws IOException {
         // Selecting file with FileChooser
         FileChooser txtChooser = new FileChooser();
         txtChooser.setTitle("Escolha um arquivo:");
@@ -50,7 +51,7 @@ public class WelcomeController {
             root = loader.load();
             WelcomeController controller = loader.getController();
             controller.displayArchive(selectedArchive);
-            stage = (Stage) fileChooserBtn.getScene().getWindow();
+            stage = (Stage)((Node)e.getSource()).getScene().getWindow();
             scene = new Scene(root);
             stage.setScene(scene);
             stage.show();
@@ -72,16 +73,16 @@ public class WelcomeController {
     @FXML
     public void back(ActionEvent e) throws IOException {
         // loading welcome screen
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("welcome-2-view.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("welcome-view.fxml"));
         root = loader.load();
-        stage = (Stage) voltarBtn.getScene().getWindow();
+        stage = (Stage)((Node)e.getSource()).getScene().getWindow();
         scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
     }
 
     @FXML
-    public void confirm(ActionEvent e) {
+    public void confirm(ActionEvent e) throws IOException {
         MainController mainController = new MainController();
         mainController.startMainScreen(e);
     }
