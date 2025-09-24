@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ProgressBar?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.eduardogisoldi.indexadordetextobst.MainController">
+   <children>
+      <ProgressBar fx:id="progressBar" layoutX="13.0" layoutY="74.0" prefHeight="55.0" prefWidth="573.0" progress="0.0" />
+      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="14.0" layoutY="14.0" prefHeight="55.0" prefWidth="574.0" text="Indexando palavras...">
+         <font>
+            <Font name="System Italic" size="28.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>

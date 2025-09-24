@@ -21,9 +21,9 @@ import java.nio.file.Paths;
 
 public class WelcomeController {
 
-    private Parent root;
     private Stage stage;
     private Scene scene;
+    private Parent root;
 
     @FXML
     private Label instructionLbl;
@@ -36,6 +36,15 @@ public class WelcomeController {
     @FXML
     private Button confirmarBtn;
 
+    public void showView(ActionEvent e, String fxml) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource(fxml));
+        root = loader.load();
+        stage = (Stage)((Node)e.getSource()).getScene().getWindow();
+        scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
+    }
+
     @FXML
     public void chooseFile(ActionEvent e) throws IOException {
         // Selecting file with FileChooser
@@ -44,8 +53,14 @@ public class WelcomeController {
         txtChooser.setInitialDirectory(new File("C:\\"));
         txtChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Arquivo TXT", "*.txt"));
         File selectedArchive = txtChooser.showOpenDialog(null);
-        if (selectedArchive != null) { // file was selected
 
+        // validating selected file
+        boolean validArchive = false;
+        if (selectedArchive.exists() && selectedArchive.isFile() && selectedArchive.canRead()) {
+            validArchive = true;
+        }
+
+        if (validArchive) {
             // loading confirmation screen
             FXMLLoader loader = new FXMLLoader(getClass().getResource("welcome-2-view.fxml"));
             root = loader.load();
@@ -54,9 +69,9 @@ public class WelcomeController {
             stage = (Stage)((Node)e.getSource()).getScene().getWindow();
             scene = new Scene(root);
             stage.setScene(scene);
+            stage.setResizable(false);
             stage.show();
-
-        } else { // no file was selected
+        } else { // no valid file was selected
             instructionLbl.setText("Nenhum arquivo válido selecionado. Tente novamente.");
             instructionLbl.setFont(Font.font("System", FontWeight.BOLD, 24));
         }
@@ -73,17 +88,13 @@ public class WelcomeController {
     @FXML
     public void back(ActionEvent e) throws IOException {
         // loading welcome screen
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("welcome-view.fxml"));
-        root = loader.load();
-        stage = (Stage)((Node)e.getSource()).getScene().getWindow();
-        scene = new Scene(root);
-        stage.setScene(scene);
-        stage.show();
+        showView(e, "welcome-view.fxml");
     }
 
     @FXML
     public void confirm(ActionEvent e) throws IOException {
+        // loading main screen
         MainController mainController = new MainController();
-        mainController.startMainScreen(e);
+        mainController.loadFile(e);
     }
 }
