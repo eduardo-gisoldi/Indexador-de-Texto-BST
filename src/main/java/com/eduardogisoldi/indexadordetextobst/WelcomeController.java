@@ -36,6 +36,8 @@ public class WelcomeController {
     @FXML
     private Button confirmarBtn;
 
+    public File selectedArchive = null;
+
     public void showView(ActionEvent e, String fxml) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource(fxml));
         root = loader.load();
@@ -52,7 +54,7 @@ public class WelcomeController {
         txtChooser.setTitle("Escolha um arquivo:");
         txtChooser.setInitialDirectory(new File("C:\\"));
         txtChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Arquivo TXT", "*.txt"));
-        File selectedArchive = txtChooser.showOpenDialog(null);
+        this.selectedArchive = txtChooser.showOpenDialog(null);
 
         // validating selected file
         boolean validArchive = false;
@@ -65,6 +67,7 @@ public class WelcomeController {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("welcome-2-view.fxml"));
             root = loader.load();
             WelcomeController controller = loader.getController();
+            controller.selectedArchive = this.selectedArchive;
             controller.displayArchive(selectedArchive);
             stage = (Stage)((Node)e.getSource()).getScene().getWindow();
             scene = new Scene(root);
@@ -95,6 +98,7 @@ public class WelcomeController {
     public void confirm(ActionEvent e) throws IOException {
         // loading main screen
         MainController mainController = new MainController();
-        mainController.loadFile(e);
+        if (selectedArchive != null) mainController.loadFile(e, this.selectedArchive);
+        else System.out.println("Nenhum arquivo selecionado para indexação.");
     }
 }
