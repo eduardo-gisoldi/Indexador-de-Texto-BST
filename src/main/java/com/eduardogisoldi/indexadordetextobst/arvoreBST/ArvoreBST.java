@@ -222,16 +222,13 @@ public class ArvoreBST {
      * @param scanner Scanner para entrada do usuário.
      * @return Nó encontrado ou null.
      */
-    public No busca(Scanner scanner) {
-        System.out.println("\nA busca eh por palavra inteira ou por substring? (I/S) ou cancelar (C)");
-        String opcao = scanner.nextLine();
-
-        while (!opcao.equalsIgnoreCase("I") && !opcao.equalsIgnoreCase("S") && !opcao.equalsIgnoreCase("C")) {
-            System.out.println("Opcao invalida. Digite 'I' para palavra inteira ou 'S' para substring. Digite 'C' para cancelar.");
-            opcao = scanner.nextLine();
+    public No busca(String palavra) {
+        if (this.vazia()) {
+            System.err.println("Arvore vazia, busca nao eh possivel.");
+            return null;
         }
 
-        if (opcao.equalsIgnoreCase("S")) {
+        /*if (opcao.equalsIgnoreCase("S")) {
             System.out.println("Digite a substring (retorna o primeiro resultado que a contem):");
             String s = scanner.nextLine();
 
@@ -241,23 +238,18 @@ public class ArvoreBST {
 
             System.out.println("Tempo de busca (substring): " + (fim - inicio) + " ns");
             return resultado;
-        } else if (opcao.equalsIgnoreCase("I")) {
-            System.out.println("Digite a palavra:");
-            String i = scanner.nextLine();
+        } else if (opcao.equalsIgnoreCase("I")) { */
 
-            long inicio = System.nanoTime();
-            No resultado = buscaRec(raiz, i);
-            long fim = System.nanoTime();
-            if (resultado != null) {
-                System.out.println("Palavra encontrada: " + resultado.getPalavra() + " (qtd: " + resultado.getQtd() + ")");
-            }
-
-            System.out.println("Tempo de busca (palavra inteira): " + (fim - inicio) + " ns");
-            return resultado;
+        long inicio = System.nanoTime();
+        No resultado = buscaRec(raiz, palavra);
+        long fim = System.nanoTime();
+        if (resultado != null) {
+            System.out.println("Palavra encontrada: " + resultado.getPalavra() + " (qtd: " + resultado.getQtd() + ")");
         }
 
-        System.out.println("Operacao Cancelada");
-        return null;
+        System.out.println("Tempo de busca (palavra inteira): " + (fim - inicio) + " ns");
+        return resultado;
+
     }
 
     // --- Métodos de Remoção ---
